@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Google Foobar: a Post Mortem</title>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:creator" content="@Jaconotar"/>
+    <meta property="og:title" content="Template"/>
+    <meta property="og:url" content="http://jacquerie.github.io/google-foobar-post-mortem"/>
+    <meta property="og:description" content="TODO"/>
+    <!-- build:css css/application.min.css -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/application.css"/>
+    <!-- /build -->
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Google Foobar: a Post Mortem</h1>
+        <hr>
+      </header>
+      <div class="main">
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <li class="active">Google Foobar: a Post Mortem</li>
+        </ol>
+
+        <p><img src="img/foobar_30.jpg" alt="Google Foobar after 30 challenges."/></p>
+
+        <p>So, what was<a id="sup1-google-foobar-post-mortem" href="#fn1-google-foobar-post-mortem"><sup>1</sup></a> Google <a href="http://www.google.com/foobar/">Foobar</a> about? I still don't know. <a href="http://uk.businessinsider.com/google-hiring-developers-foobar-challenge-2014-11?r=US">Some</a> said it was an hiring push for Python developers. <a href="https://twitter.com/HillmansContent/status/549914622414032896">Others</a> claimed that Google was looking for cryptanalysts. There's even <a href="http://www.reddit.com/r/programming/comments/2p0hhn/google_foobar_was_an_ad_for_the_imitation_game/">someone</a> who proposed that it was an elaborate marketing ploy for the recently released "The Imitation Game" movie.</p>
+
+        <p>I won't talk in this post about <a href="https://ello.co/pftio/post/-8bXK2nYAXM1v2wzGp9X5g">how to get in</a>, or <a href="http://luaforums.com/115/foo-bar-with-google-my-results">what does it look like</a>, since excellent articles were already written about these topics. I will instead describe the problems I encountered, the techniques I used and what I learned. I will also discuss a few conjectures I have about Google Foobar.</p>
+
+        <h2>The problems</h2>
+        <p>Google Foobar currently consists of 30 problems articulated in 8 levels, where level \(i\) contains exactly \(i\) problems, except for level 8, which for now only has two. Problem difficulty does not always increase with the level: it does until level 5, then, when all the hard problems are gone, we get all the easier problems that we didn't solve before.</p>
+
+        <p>Since there's still people playing, I won't spoil their fun by posting the exact problem statements or their solutions. On the other hand, several problems are well-known, therefore discussing their solution should do no harm.</p>
+
+        <p>For example, one of these problems asks to calculate the number of integer points within a triangle, and this problem is solved in <a href="http://stackoverflow.com/questions/1049409/how-many-integer-points-within-the-three-points-forming-a-triangle">this Stackoverflow thread</a> by rederiving Pick's Theorem for triangles.<a id="sup2-google-foobar-post-mortem" href="#fn2-google-foobar-post-mortem"><sup>2</sup></a></p>
+
+        <p>Another problem asks how much water gets trapped in a given landscape, represented by an array of integers. This is a classical interview question, also <a href="http://stackoverflow.com/questions/24414700/amazon-water-collected-between-towers">solved on Stackoverflow</a>.</p>
+
+        <p>As you might know, this problem has a solution that does 3 passes over the landscape array \(A\). If you were to implement a simpler solution that does \(\max(A)\) passes you'd discover that Google Foobar times out.</p>
+
+        <p>In fact, the possible input size almost invariably acted as a strong hint for the accepted time complexity. An input in the order of the millions would usually require a linear algorithm, while inputs in the order of the tens would imply some kind of brute-force or exponential algorithm.</p>
+
+        <p>Choosing the right algorithm and implementing it correctly were usually enough to advance to the next level. In some cases I needed a little bit of profiling: this just meant to run <pre>$ python -m cProfile solution.py</pre> to identify and fix the bottleneck. In most cases the problem was solved by adding a very naïve memoization cache. For example, I frequently used this method to compute the binomial coefficient \({n \choose k}\):</p>
+
+        <p><script src="https://gist.github.com/jacquerie/97550689cf8ddfc31255.js"></script></p>
+
+        <p>Sometimes this was too slow, but adding a memoization dictionary made the method fast enough. For example:</p>
+
+        <p><script src="https://gist.github.com/jacquerie/8c39719f1a82e4b04029.js"></script></p>
+
+        <p>This was all that was needed to pass the vast majority of puzzles. A few puzzles required either more advanced mathematics or, in my case, a little bit of cheating.</p>
+
+        <h2>The difficult problems</h2>
+        <p>In my opinion, three problems stood out for difficulty: <code>undercover_underground</code>, <code>zombit_pandemic</code> and <code>grid_zero</code>.</p>
+
+        <p>TODO</p>
+
+        <p>I almost ran out of time on the last one. It essentially asks to find the minimal number of buttons to press to turn all buttons off in a variant of the <a href="http://en.wikipedia.org/wiki/Lights_Out_%28game%29">Lights out game</a>, in which pressing a button will flip the state of all buttons in the same row and column (including itself).</p>
+
+        <p>TODO</p>
+
+        <h2>What Google Foobar wasn't</h2>
+        <p>TODO</p>
+
+        <p><strong>An attempt to recruit cryptanalysts:</strong> TODO</p>
+
+        <p><strong>A marketing ploy for "The Imitation Game":</strong> While I found it impressive that Google managed to sneak in the Google Foobar IP in the trailer of a movie that some say is poised for an Academy Award, TODO</p>
+
+        <p><strong>A success:</strong> According to StackExchange, my questions were seen roughly 200 times each. From this data, I estimate that Google Foobar had in the order of the low hundreds of committed participants, who got to at least level 4/5. On the other hand, it's possible that most people stopped after level 3, when Google Foobar asks your credentials to submit them to a Google recruiter.<a id="sup3-google-foobar-post-mortem" href="#fn3-google-foobar-post-mortem"><sup>3</sup></a></p>
+
+        <h2>Notes</h2>
+        <ol>
+          <li id="fn1-google-foobar-post-mortem">I am using the past tense because I <em>think</em> it's over, and not because I <em>know</em> it is. Hopefully someone involved with this project will clarify. <a href="#sup1-google-foobar-post-mortem">↩</a></li>
+          <li id="fn2-google-foobar-post-mortem">I instead chose to apply Pick's Theorem, since calculating the area of a triangle given the coordinates of the vertices is a determinant, while the number of integral points on an edge is a GCD. <a href="#sup2-google-foobar-post-mortem">↩</a></li>
+          <li id="fn3-google-foobar-post-mortem">I always find it adorable when Google pretends it doesn't know my name or email address. <a href="#sup3-google-foobar-post-mortem">↩</a></li>
+        </ol>
+      </div>
+      <footer>
+        <hr>
+        <p class="signature">Made by Jacopo Notarstefano
+          (<a href="https://twitter.com/Jaconotar">@Jaconotar</a>)</p>
+      </footer>
+      <a href="https://github.com/jacquerie/google-foobar-post-mortem"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+    </div>
+    <!-- build:js js/application.min.js -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ 
+      ga('create', 'UA-48140066-1', 'jacquerie.github.io');
+      ga('send', 'pageview');
+    </script>
+    <!-- /build -->
+  </body>
+</html>
