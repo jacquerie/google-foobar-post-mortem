@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Google Foobar: a Post Mortem</title>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:creator" content="@Jaconotar"/>
+    <meta property="og:title" content="Template"/>
+    <meta property="og:url" content="http://jacquerie.github.io/google-foobar-post-mortem"/>
+    <meta property="og:description" content="TODO"/>
+    <link rel="stylesheet" href="css/application.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Google Foobar: a Post Mortem</h1>
+        <hr>
+      </header>
+      <div class="main">
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <li class="active">Google Foobar: a Post Mortem</li>
+        </ol>
+
+        <p><img src="img/foobar.jpg" alt="Google Foobar after 30 challenges."/></p>
+
+        <p>So, what was<a id="sup1-google-foobar-post-mortem" href="#fn1-google-foobar-post-mortem"><sup>1</sup></a> Google <a href="http://www.google.com/foobar/">Foobar</a> about? I still don't know. <a href="http://uk.businessinsider.com/google-hiring-developers-foobar-challenge-2014-11?r=US">Some</a> said it was an hiring push for Python developers. <a href="https://twitter.com/HillmansContent/status/549914622414032896">Others</a> claimed that Google was looking for cryptanalysts. There's even <a href="http://www.reddit.com/r/programming/comments/2p0hhn/google_foobar_was_an_ad_for_the_imitation_game/">someone</a> who proposed that it was an elaborate marketing ploy for the recently released "The Imitation Game" movie.</p>
+
+        <p>I won't talk in this post about <a href="https://ello.co/pftio/post/-8bXK2nYAXM1v2wzGp9X5g">how to get in</a>, or <a href="http://luaforums.com/115/foo-bar-with-google-my-results">what does it look like</a>, since excellent articles were already written about these topics. I will instead describe the problems I encountered, the techniques I used and what I learned. I will also discuss a few conjectures I have about Google Foobar.</p>
+
+        <h2>The problems</h2>
+        <p>Google Foobar currently consists of 30 problems articulated in 8 levels, where level \(i\) contains exactly \(i\) problems, except for level 8, which for now only has two. Problem difficulty does not always increase with the level: it does until level 5, then, when all the hard problems are gone, we get all the easier problems that we didn't solve before.</p>
+
+        <p>Since there's still people playing, I won't spoil their fun by posting the exact problem statements or their solutions. On the other hand, several problems are well-known, therefore discussing their solution should do no harm.</p>
+
+        <p>For example, one of these problems asks to calculate the number of integer points within a triangle, and this problem is solved in <a href="http://stackoverflow.com/questions/1049409/how-many-integer-points-within-the-three-points-forming-a-triangle">this Stackoverflow thread</a> by rederiving Pick's Theorem for triangles.</p>
+
+        <p>Another problem asks how much water gets trapped in a given landscape, represented by an array of integers. This is a classical interview question, also <a href="http://stackoverflow.com/questions/24414700/amazon-water-collected-between-towers">solved on Stackoverflow</a>.</p>
+
+        <p>As you might know, this problem has a solution that does 3 passes over the landscape array \(A\). If you were to implement a simpler solution that does \(\max(A)\) passes you'd discover that Google Foobar times out.</p>
+
+        <p>In fact, the possible input size almost invariably acted as a strong hint for the accepted time complexity. An input in the order of the millions would usually require a linear algorithm, while inputs in the order of the tens would imply some kind of brute-force or exponential algorithm.</p>
+
+        <p>Choosing the right algorithm and implementing it correctly were usually enough to advance to the next level. In some cases I needed a little bit of profiling: this just meant to run <pre>$ python -m cProfile solution.py</pre> to identify and fix the bottleneck. In most cases the problem was solved by adding a very naïve memoization cache. For example, I frequently used this method to compute the binomial coefficient \({n \choose k}\):</p>
+
+        <p><script src="https://gist.github.com/jacquerie/97550689cf8ddfc31255.js"></script></p>
+
+        <p>Sometimes this was too slow, but adding a memoization dictionary made the method fast enough. For example:</p>
+
+        <p><script src="https://gist.github.com/jacquerie/8c39719f1a82e4b04029.js"></script></p>
+
+        <p>This was all that was needed to pass the vast majority of puzzles. A few puzzles required either more advanced mathematics or, in my case, a little bit of cheating.</p>
+
+        <h2>The difficult problems</h2>
+        <p>In my opinion, three problems stood out for difficulty: <code>undercover_underground</code>, <code>zombit_pandemic</code> and <code>grid_zero</code>.</p>
+
+        <p>The first two asked to calculate the number of graphs having certain properties. In both cases, an explicit formula was out of question, but the problems could be solved by finding a recursive formula and applying it (usually with a memoization dictionary).</p>
+
+       <p>It's interesting to note that both problems can be solved using the techniques of <a href="http://en.wikipedia.org/wiki/Analytic_combinatorics">Analytic Combinatorics</a>, hinting that somebody behind Foobar has an advanced mathematics background.</p>
+
+        <p>I almost ran out of time on the last one. It essentially asks to find the minimal number of buttons to press to turn all buttons off in a variant of the <a href="http://en.wikipedia.org/wiki/Lights_Out_%28game%29">Lights out game</a>, in which pressing a button will flip the state of all buttons in the same row and column (including itself).</p>
+
+        <p>I tried everything I could with this problem, as detailed in this <a href="http://math.stackexchange.com/questions/1052609/minimal-number-of-moves-needed-to-solve-a-lights-out-variant">Mathematics StackExchange question</a>, but I only managed to implement a <a href="http://stackoverflow.com/questions/27436275/how-can-i-further-optimize-this-solver-of-a-variant-of-lights-out">brute-force algorithm</a> that solved correctly 4 out of 5 test cases.</p>
+
+        <p>With only a few hours left, I resorted to... unorthodox strategies. I knew that the answer to a test case was a number between 1 and 225, so I submitted fake solutions until I determined the answer to the missing test case. Then I incorporated the fake solution in the rest of my code, hoped that Foobar was using the same test cases for <code>verify</code> and <code>submit</code>... and they did.</p>
+
+        <h2>What Google Foobar probably wasn't</h2>
+        <p>Finally, here are my conjectures about Google Foobar.</p>
+
+        <p><strong>An attempt to recruit cryptanalysts:</strong> Only one problem had something to do with code-breaking. Most of the other problems were standard algorithmical questions, perhaps with a little more mathematics than usual.</p>
+
+        <p><strong>A marketing ploy for "The Imitation Game":</strong> While I found it remarkable that Google managed to sneak in Foobar in the trailer of a movie that some say is poised for an Academy Award, I don't think that's a reasonable explanation. The hiring push seems much more probable.</p>
+
+        <p><strong>A success:</strong> According to StackExchange, my questions were seen roughly 200 times each. From this data, I estimate that Google Foobar had in the order of the low hundreds of committed participants, who got to at least level 4/5. On the other hand, it's possible that most people stopped after level 3, when Google Foobar asks your credentials to submit them to a Google recruiter.<a id="sup2-google-foobar-post-mortem" href="#fn2-google-foobar-post-mortem"><sup>2</sup></a></p>
+
+        <p>On the other hand, I don't think anything will come out of this. I don't expect to be called by Google over Foobar — but I wouldn't mind!</p>
+
+        <h2>Notes</h2>
+        <ol>
+          <li id="fn1-google-foobar-post-mortem">I am using the past tense because I <em>think</em> it's over, and not because I <em>know</em> it is. Hopefully someone involved with this project will clarify. <a href="#sup1-google-foobar-post-mortem">↩</a></li>
+          <li id="fn2-google-foobar-post-mortem">I always find it adorable when Google pretends it doesn't know my name or email address. <a href="#sup2-google-foobar-post-mortem">↩</a></li>
+        </ol>
+      </div>
+      <footer>
+        <hr>
+        <p class="signature">Made by Jacopo Notarstefano
+          (<a href="https://twitter.com/Jaconotar">@Jaconotar</a>)</p>
+      </footer>
+    </div>
+    <script src="js/application.min.js"></script>
+  </body>
+</html>
