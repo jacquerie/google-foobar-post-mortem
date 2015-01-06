@@ -1,6 +1,6 @@
 body {
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
 }
 
 .container {
@@ -8,5 +8,5 @@ body {
 }
 
 .signature {
-  text-align: center !important;
+  text-align: center;
 }
