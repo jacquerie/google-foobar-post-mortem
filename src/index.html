@@ -57,11 +57,15 @@
         <h2>The difficult problems</h2>
         <p>In my opinion, three problems stood out for difficulty: <code>undercover_underground</code>, <code>zombit_pandemic</code> and <code>grid_zero</code>.</p>
 
-        <p>TODO</p>
+        <p>The first two asked to calculate the number of graphs having certain properties. In both cases, an explicit formula was out of question, but the problems could be solved by finding a recursive formula and applying it (usually with a memoization dictionary).</p>
+
+       <p>It's interesting to note that both problems can be solved using the techniques of <a href="http://en.wikipedia.org/wiki/Analytic_combinatorics">Analytic Combinatorics</a>, hinting that somebody behind Foobar has an advanced mathematics background.</p>
 
         <p>I almost ran out of time on the last one. It essentially asks to find the minimal number of buttons to press to turn all buttons off in a variant of the <a href="http://en.wikipedia.org/wiki/Lights_Out_%28game%29">Lights out game</a>, in which pressing a button will flip the state of all buttons in the same row and column (including itself).</p>
 
-        <p>TODO</p>
+        <p>I tried everything I could with this problem, as detailed in this <a href="http://math.stackexchange.com/questions/1052609/minimal-number-of-moves-needed-to-solve-a-lights-out-variant">Mathematics StackExchange question</a>, but I only managed to implement a <a href="http://stackoverflow.com/questions/27436275/how-can-i-further-optimize-this-solver-of-a-variant-of-lights-out">brute-force algorithm</a> that solved correctly 4 out of 5 test cases.</p>
+
+        <p>With only a few hours left, I resorted to... unorthodox strategies. I knew that the answer to a test case was a number between 1 and 225, so I submitted fake solutions until I determined the answer to the missing test case. Then I incorporated the fake solution in the rest of my code, hoped that Foobar was using the same test cases for <code>verify</code> and <code>submit</code>... and they did.</p>
 
         <h2>What Google Foobar wasn't</h2>
         <p>TODO</p>
