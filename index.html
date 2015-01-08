@@ -27,7 +27,7 @@
 
         <div class="callout callout-info">
           <h4>This report of Google Foobar's death was greatly exaggerated</h4>
-          <p>New problems were added on <time>07/01/2015</time>.</p>
+          <p>Two new problems were added on <time>2015-01-07</time>.</p>
         </div>
 
         <p>So, what was<a id="sup1-google-foobar-post-mortem" href="#fn1-google-foobar-post-mortem"><sup>1</sup></a> Google <a href="http://www.google.com/foobar/">Foobar</a> about? I still don't know. <a href="http://uk.businessinsider.com/google-hiring-developers-foobar-challenge-2014-11?r=US">Some</a> said it was an hiring push for Python developers. <a href="https://twitter.com/HillmansContent/status/549914622414032896">Others</a> claimed that Google was looking for cryptanalysts. There's even <a href="http://www.reddit.com/r/programming/comments/2p0hhn/google_foobar_was_an_ad_for_the_imitation_game/">someone</a> who proposed that it was an elaborate marketing ploy for the recently released "The Imitation Game" movie.</p>
@@ -47,7 +47,9 @@
 
         <p>In fact, the possible input size almost invariably acted as a strong hint for the accepted time complexity. An input in the order of the millions would usually require a linear algorithm, while inputs in the order of the tens would imply some kind of brute-force or exponential algorithm.</p>
 
-        <p>Choosing the right algorithm and implementing it correctly were usually enough to advance to the next level. In some cases I needed a little bit of profiling: this just meant to run <pre>$ python -m cProfile solution.py</pre> to identify and fix the bottleneck. In most cases the problem was solved by adding a very naïve memoization cache. For example, I frequently used this method to compute the binomial coefficient \({n \choose k}\):</p>
+        <p>Choosing the right algorithm and implementing it correctly were usually enough to advance to the next level. In some cases I needed a little bit of profiling: this just meant to run<p>
+        <pre>$ python -m cProfile solution.py</pre>
+        <p>to identify and fix the bottleneck. In most cases the problem was solved by adding a very naïve memoization cache. For example, I frequently used this method to compute the binomial coefficient \({n \choose k}\):</p>
 
         <p><script src="https://gist.github.com/jacquerie/97550689cf8ddfc31255.js"></script></p>
 
