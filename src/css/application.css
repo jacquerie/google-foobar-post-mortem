@@ -10,3 +10,26 @@ body {
 .signature {
   text-align: center;
 }
+
+/* See: http://goo.gl/G5Ads1 */
+
+.callout {
+  padding: 15px 15px 0 15px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+
+.callout h4 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.callout-info {
+  border-left-color: #5bc0de;
+}
+
+.callout-info h4 {
+  color: #5bc0de;
+}
