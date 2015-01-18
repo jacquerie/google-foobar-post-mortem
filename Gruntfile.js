@@ -1,5 +1,14 @@
 module.exports = function (grunt) {
   grunt.initConfig({
+    copy: {
+      dist: {
+        files: {
+          'dist/favicon.ico': ['src/favicon.ico'],
+          'dist/apple-touch-icon.png': ['src/apple-touch-icon.png']
+        }
+      }
+    },
+
     cssmin: {
       dist: {
         files: {
@@ -17,10 +26,12 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-processhtml');
 
   grunt.registerTask('default', [
+    'copy',
     'cssmin',
     'processhtml',
   ]);
