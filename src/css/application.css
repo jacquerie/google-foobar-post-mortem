@@ -1,35 +1,61 @@
 body {
-  font-size: 16px !important;
-  line-height: 1.75 !important;
+  font-size: 16px;
+  line-height: 1.75;
 }
 
 .container {
   max-width: 600px;
 }
 
-.signature {
-  text-align: center;
-}
-
-/* See: http://goo.gl/G5Ads1 */
-
 .callout {
-  padding: 15px 15px 0 15px;
-  margin: 20px 0;
+  padding-top: 1.25rem;
+  padding-bottom: 0;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
   border: 1px solid #eee;
-  border-left-width: 5px;
-  border-radius: 3px;
+  border-left-width: .25rem;
+  border-radius: .25rem;
 }
 
 .callout h4 {
-  margin-top: 0px;
-  margin-bottom: 5px;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: .25rem;
 }
 
 .callout-info {
-  border-left-color: #5bc0de;
+  border-left-color: #17a2b8;
 }
 
 .callout-info h4 {
-  color: #5bc0de;
+  color: #17a2b8;
+}
+
+.main {
+  margin-bottom: 64px;
+}
+
+.donate a {
+  height: 63px !important;
+  line-height: 63px !important;
+}
+
+.donate a span {
+  margin-left: 5px !important;
+}
+
+.share a {
+  margin-right: 1px;
+}
+
+.share a img {
+  background-color: #212529;
+  width: 63px;
+  height: 63px;
+}
+
+.signature {
+  text-align: center;
 }

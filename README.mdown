@@ -1,5 +1,17 @@
 # google-foobar-post-mortem #
 
+[![Build Status](https://travis-ci.org/jacquerie/google-foobar-post-mortem.svg?branch=master)](https://travis-ci.org/jacquerie/google-foobar-post-mortem)
+
+## About ##
+
 So, what was Google Foobar about? I still don't know. I will describe the problems I encountered, the techniques I used and what I learned. I will also discuss a few conjectures I have about it.
 
 [Read this post by clicking here](http://jacquerie.github.io/google-foobar-post-mortem/).
+
+## Author ##
+
+Jacopo Notarstefano ([@Jaconotar](https://twitter.com/Jaconotar))
+
+## License ##
+
+MIT
